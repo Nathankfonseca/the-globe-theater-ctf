@@ -12,7 +12,7 @@
   * Imagem Docker compilada obrigatoriamente para a plataforma `linux/amd64` (user).
   * Serviço Web Nginx na porta 80 exibindo arte temático sobre a peça Hamlet e a frase "To be or not to be" (user).
   * Rota oculta `/archive` listável em dicionários padrão como `common.txt` (user).
-  * Arquivo `/var/www/html/archive/hamlet.txt` contextualizando a peça Hamlet e arquivo `index.html` contendo a senha SSH em comentário HTML oculto (user).
+  * Arquivo `/var/www/html/archive/hamlet.txt` contextualizando a peça Hamlet e arquivo `index.html` contendo a senha SSH codificada em Base64 comentada dentro do HTML.
   * Serviço OpenSSH na porta 22 permitindo autenticação do usuário `hamlet` com a senha descoberta (user).
   * Escalação lateral de `hamlet` para `othello` via comando `sudo` executando script Python vulnerável a sequestro de biblioteca local (*Python Library Hijacking*) (user).
   * User flag em `/home/othello/user.txt` no formato `TAC{...}` (user).
@@ -109,7 +109,7 @@ autorestart=true
   "There are more things in heaven and earth, Horatio,
   Than are dreamt of in your philosophy."
   ```
-* `src/web/archive/index.html`: Contém a página do acervo teatral e, no código-fonte, o comentário com a senha (user):
+* `src/web/archive/index.html`: Contém a página do acervo teatral e, no código-fonte, a senha codificada em Base64 (user):
   ```html
   <!DOCTYPE html>
   <html lang="en">
@@ -117,7 +117,25 @@ autorestart=true
   <body style="background:#111; color:#eee; font-family:serif; text-align:center; padding:50px;">
     <h1>Royal Archives</h1>
     <p>Manuscripts and historical records of the Danish court.</p>
-    <!-- Senha de acesso: To_Be_Or_Not_To_Be_1603 -->
+    <!--[ARCHIVE RECORD: MS-ELSN-1603-BK1]
+  [FOLIO FRAGMENT: RESTRICTED MANUSCRIPT - RESTORATION INCOMPLETE]
+  ------------------------------------------------------------------------
+  ...to be/ or not to be- that is the queftion/
+  whether tis nobler in the minde to fuffer
+  the flings and arrowes of outragious fortune/
+  or to take Armes againft a Sea of troubles/
+  and by oppofing end them...
+
+  [LACUNA NOTED IN MARGIN: FOLIO DEFACED]
+
+  ...to dye/ to fleepe- no more; and by a fleepe to faye we end
+  the heart-ake/ and the thoufand naturall fhockes
+  that Flefh is heire to/ tis a confummation
+  deuoutly to be wifh'd...
+  ------------------------------------------------------------------------
+  [TRANSCRIPTER NOTE: ATTRIBUTED TO PRINCE OF DENMARK (H. RECORD)]
+  [END OF RECORD] 
+  VG9fQmVfT3JfTm90X1RvX0JlXzE2MDM=-->
   </body>
   </html>
   ```
