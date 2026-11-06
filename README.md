@@ -71,12 +71,14 @@ docker compose -f docker-compose-dist.yml down
   ```text
   hamlet ALL=(othello) NOPASSWD: /usr/bin/python3 /opt/scripts/theater.py
   ```
-* **Mecanismo:** O script `/opt/scripts/theater.py` pertence a `othello` e tenta importar um módulo local:
+* **Mecanismo:** O script `/opt/scripts/theater.py` pertence a `othello` e insere o diretório de trabalho atual na prioridade de busca do Python (`sys.path.insert(0, os.getcwd())`) para tentar importar o módulo local `desdemona`:
   ```python
+  import sys, os
+  sys.path.insert(0, os.getcwd())
   import desdemona
   desdemona.verificar_fidelidade()
   ```
-  O interpretador Python insere o diretório de trabalho atual (`sys.path[0]` ou diretório de execução) na prioridade de busca de módulos. O invasor posiciona-se em um diretório com permissão de escrita (`/tmp` ou `/home/hamlet`), cria um arquivo malicioso denominado `desdemona.py` contendo a chamada para um shell (`pty.spawn("/bin/bash")`) e dispara o comando com `sudo -u othello`. Ao executar, o script carrega o arquivo do invasor com privilégios de `othello`.
+  O invasor posiciona-se em um diretório com permissão de escrita (`/tmp` ou `/home/hamlet`), cria um arquivo malicioso denominado `desdemona.py` contendo a chamada para um shell (`pty.spawn("/bin/bash")`) e dispara o comando com `sudo -u othello`. Ao executar, o script carrega o arquivo do invasor com privilégios de `othello`.
 
 ### 3.3 Uso de Senha Fraca e Quebra de Hash SHA-256 (CWE-326 / CWE-521)
 * **Vetor:** No diretório do usuário `othello`, o arquivo `recado_de_iago.txt` armazena a mensagem:
