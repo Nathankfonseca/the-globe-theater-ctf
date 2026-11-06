@@ -64,7 +64,7 @@ docker compose -f docker-compose-dist.yml down
 
 ### 3.1 Exposição de Diretório Oculto e Comentário no Código-Fonte (CWE-200 / CWE-615)
 * **Vetor:** O servidor web Nginx expõe na porta 8080 o diretório `/archive`. Essa rota consta nas listas comuns de força bruta de diretórios (`common.txt`).
-* **Mecanismo:** Dentro de `/archive`, o arquivo `index.html` contém no código-fonte HTML o comentário `<!-- Senha de acesso: To_Be_Or_Not_To_Be_1603 -->`. Além disso, o arquivo `/archive/hamlet.txt` cita a tragédia do Príncipe da Dinamarca. O atacante relaciona o tema à conta do sistema operacional e utiliza o usuário `hamlet` com a senha descoberta para autenticar no serviço OpenSSH (porta 2222).
+* **Mecanismo:** Dentro de `/archive`, o  código-fonte HTML do arquivo `index.html` contém a senha codificada em Base64 nos comentários`(To_Be_Or_Not_To_Be_1603`. Além disso, o arquivo `/archive/hamlet.txt` cita a tragédia do Príncipe da Dinamarca. O atacante relaciona o tema à conta do sistema operacional e utiliza o usuário `hamlet` com a senha descoberta para autenticar no serviço OpenSSH (porta 2222).
 
 ### 3.2 Movimento Lateral via Python Library Hijacking (CWE-427 / Uncontrolled Search Path)
 * **Vetor:** O usuário `hamlet` possui a seguinte entrada no `/etc/sudoers.d/hamlet`:
