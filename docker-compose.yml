@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: nomedogrupo/the-globe-theater:1.0
+    image: TAC/the-globe-theater:1.0
     container_name: the-globe-theater
     restart: unless-stopped
     ports:
