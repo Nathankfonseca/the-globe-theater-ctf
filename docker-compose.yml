@@ -1,0 +1,12 @@
+services:
+  the-globe-theater:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nomedogrupo/the-globe-theater:1.0
+    container_name: the-globe-theater
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "2222:22"
+
